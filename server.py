@@ -24,6 +24,4 @@ def index () :
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return jsonify(message='You hit the File upload route of the app')
-    elif request.method =='POST' and 'amf' not in request.files : 
-        return jsonify (message="You didn't attach amf dat file in the form")
     return jsonify (message='You made a bad request, post request is required')
