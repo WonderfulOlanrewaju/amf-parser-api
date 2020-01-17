@@ -1,4 +1,9 @@
 from flask import jsonify, Flask, request
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = '/amf'
+ALLOWED_EXTENSIONS = {'dat' '999'}
+
 app = Flask (__name__)
 
 
@@ -8,7 +13,10 @@ def home () :
 
 @app.route('/amf', methods=['POST', 'GET'])
 def index () :
-    if request.method == 'POST':
+    if request.method == 'POST' and 'amf' in request.files:
+        f = request.files['amf']
         return jsonify(message='You hit the File upload route of the app')
+    elif request.method =='POST' and 'amf' not in request.files : 
+        return jsonify (message="You didn't attach amf dat file in the form")
     return jsonify (message='You made a bad request, post request is required')
     
