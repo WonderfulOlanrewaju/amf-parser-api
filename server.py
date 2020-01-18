@@ -29,7 +29,7 @@ def index () :
         # print(upload_path)
         converted = pd.read_fwf(upload_path)
         # print (type(converted))
-        # print (converted.iat[30,0])
+        print (converted.iat[30,0])
         # print (dir(converted))
         os.remove(upload_path)
         return jsonify(message='Your file {} uploaded successfully'.format(client_filename))
