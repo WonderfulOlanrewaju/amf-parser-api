@@ -1,6 +1,7 @@
 from flask import jsonify, Flask, request
 from werkzeug.utils import secure_filename
 import os
+import pandas as pd
 
 UPLOAD_FOLDER = 'amf'
 ALLOWED_EXTENSIONS = {'dat','999'}
@@ -20,8 +21,15 @@ def home () :
 @app.route('/amf', methods=['POST', 'GET'])
 def index () :
     file = request.files['amf']
-    if request.method == 'POST' and allowed_file_extensions(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return jsonify(message='You hit the File upload route of the app')
+    client_filename = file.filename
+    if request.method == 'POST' and allowed_file_extensions(client_filename):
+        filename = secure_filename(client_filename)
+        upload_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(upload_path)
+        # print(upload_path)
+        converted = pd.read_fwf(upload_path)
+        # print (type(converted))
+        # print (converted.iat[30,0])
+        print (len(converted.shape))
+        return jsonify(message='Your file {} uploaded successfully'.format(client_filename))
     return jsonify (message='You made a bad request, post request is required')
