@@ -30,6 +30,7 @@ def index () :
         converted = pd.read_fwf(upload_path)
         # print (type(converted))
         # print (converted.iat[30,0])
-        print (len(converted.shape))
+        # print (dir(converted))
+        os.remove(upload_path)
         return jsonify(message='Your file {} uploaded successfully'.format(client_filename))
     return jsonify (message='You made a bad request, post request is required')
